@@ -50,5 +50,42 @@
 
         #endregion
 
+        #region Addition
+
+        /// <summary>
+        /// Add matrix to another matrix.
+        /// </summary>
+        public void AddMatrix(Matrix obj)
+        {
+            if (elemenents.GetLength(0) != obj.elemenents.GetLength(0) || elemenents.GetLength(1) != obj.elemenents.GetLength(1))
+                throw new InvalidOperationException("Cannot add two matrixes with different sizes.");
+            else
+            {
+                for (int i = 0; i < elemenents.GetLength(0); i++)
+                {
+                    for (int j = 0; j < elemenents.GetLength(1); j++)
+                    {
+                        this.elemenents[i, j] += obj.elemenents[i, j];
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Add number to matrix.
+        /// </summary>
+        /// <param name="number">Number that will be added.</param>
+        public void AddNumber(double number)
+        {
+            for (int i = 0; i < elemenents.GetLength(0); i++)
+            {
+                for (int j = 0; j < elemenents.GetLength(1); j++)
+                {
+                    this.elemenents[i, j] += number;
+                }
+            }
+        }
+
+        #endregion
     }
 }
