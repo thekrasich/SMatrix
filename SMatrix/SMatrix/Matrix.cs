@@ -126,5 +126,34 @@
             }
         }
         #endregion
+
+        #region Transition
+        /// <summary>
+        /// Transpose the matrix.
+        /// </summary>
+        public void Transition()
+        {
+            double[,] clone = new double[elemenents.GetLength(0), elemenents.GetLength(1)];
+
+            for (int i = 0; i < elemenents.GetLength(0); i++)
+            {
+                for (int j = 0; j < elemenents.GetLength(1); j++)
+                {
+                    clone[i, j] = elemenents[i, j];
+                }
+            }
+
+            elemenents = new double[clone.GetLength(1), clone.GetLength(0)];
+
+            for (int i = 0; i < elemenents.GetLength(0); i++)
+            {
+                for (int j = 0; j < elemenents.GetLength(1); j++)
+                {
+                    elemenents[i, j] = clone[j, i];
+                }
+            }
+
+        }
+        #endregion
     }
 }
