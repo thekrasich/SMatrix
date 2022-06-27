@@ -58,7 +58,9 @@
         public void AddMatrix(Matrix obj)
         {
             if (elemenents.GetLength(0) != obj.elemenents.GetLength(0) || elemenents.GetLength(1) != obj.elemenents.GetLength(1))
-                throw new InvalidOperationException("Cannot add two matrixes with different sizes.");
+            { 
+                throw new InvalidOperationException("Cannot add two matrixes with different sizes."); 
+            }
             else
             {
                 for (int i = 0; i < elemenents.GetLength(0); i++)
@@ -86,6 +88,43 @@
             }
         }
 
+        #endregion
+
+        #region Difference
+        /// <summary>
+        /// Subtract the matrix.
+        /// </summary>
+        public void SubtractMatrix(Matrix obj)
+        {
+            if (elemenents.GetLength(0) != obj.elemenents.GetLength(0) || elemenents.GetLength(1) != obj.elemenents.GetLength(1))
+            {
+                throw new InvalidOperationException("Cannot substract two matrixes with different sizes.");
+            }
+            else
+            {
+                for (int i = 0; i < elemenents.GetLength(0); i++)
+                {
+                    for (int j = 0; j < elemenents.GetLength(1); j++)
+                    {
+                        this.elemenents[i, j] -= obj.elemenents[i, j];
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Subtract number from matrix.
+        /// </summary>
+        /// <param name="number">Number that will be subtracted.</param>
+        public void SubtractNumber(double number)
+        {
+            for (int i = 0; i < elemenents.GetLength(0); i++)
+            {
+                for (int j = 0; j < elemenents.GetLength(1); j++)
+                {
+                    this.elemenents[i, j] -= number;
+                }
+            }
+        }
         #endregion
     }
 }
