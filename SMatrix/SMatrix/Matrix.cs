@@ -190,6 +190,21 @@
         }
         #endregion
 
-
+        #region Multiplication
+        /// <summary>
+        /// Multiplies every element of matrix by given number.
+        /// </summary>
+        /// <param name="number"></param>
+        public void MultiplyByNumber(double number)
+        {
+            for (int i = 0; i <elements.GetLength(0) ; i++)
+            {
+                for (int j = 0; j < elements.GetLength(1); j++)
+                {
+                    elements[i, j] *= number;
+                }
+            }
+        }
+        #endregion
     }
 }
