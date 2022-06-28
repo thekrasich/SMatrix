@@ -2,7 +2,7 @@
 {
     public class Matrix
     {
-        public double[,] elemenents = new double[0,0];
+        public double[,] elements = new double[0,0];
 
         #region Fillers
 
@@ -14,12 +14,12 @@
         /// <param name="number"></param>
         public void FillWithNumber(int  n, int m, double number)
         {
-            elemenents = new double[n,m];
+            elements = new double[n,m];
             for (int i = 0; i < n; i++)
             {
                 for (int j = 0; j < m; j++)
                 {
-                    elemenents[i,j] = number;
+                    elements[i,j] = number;
                 }
             }
         }
@@ -29,10 +29,10 @@
         /// <param name="n">Size of matrix.</param>
         public void FillIdentityMatrix(int n)
         {
-            elemenents = new double[n, n];
+            elements = new double[n, n];
             for (int i = 0;i < n; i++)
             {
-                elemenents[i, i] = 1;
+                elements[i, i] = 1;
             }
         }
         /// <summary>
@@ -44,8 +44,8 @@
         /// <param name="m">Number of columns.</param>
         public void FillMatrixUnit(int i , int j, int n , int m)
         {
-            elemenents =new double[n,m];
-            elemenents[i, j] = 1;
+            elements =new double[n,m];
+            elements[i, j] = 1;
         }
 
         #endregion
@@ -57,17 +57,17 @@
         /// </summary>
         public void AddMatrix(Matrix obj)
         {
-            if (elemenents.GetLength(0) != obj.elemenents.GetLength(0) || elemenents.GetLength(1) != obj.elemenents.GetLength(1))
+            if (elements.GetLength(0) != obj.elements.GetLength(0) || elements.GetLength(1) != obj.elements.GetLength(1))
             { 
                 throw new InvalidOperationException("Cannot add two matrixes with different sizes."); 
             }
             else
             {
-                for (int i = 0; i < elemenents.GetLength(0); i++)
+                for (int i = 0; i < elements.GetLength(0); i++)
                 {
-                    for (int j = 0; j < elemenents.GetLength(1); j++)
+                    for (int j = 0; j < elements.GetLength(1); j++)
                     {
-                        this.elemenents[i, j] += obj.elemenents[i, j];
+                        this.elements[i, j] += obj.elements[i, j];
                     }
                 }
             }
@@ -79,11 +79,11 @@
         /// <param name="number">Number that will be added.</param>
         public void AddNumber(double number)
         {
-            for (int i = 0; i < elemenents.GetLength(0); i++)
+            for (int i = 0; i < elements.GetLength(0); i++)
             {
-                for (int j = 0; j < elemenents.GetLength(1); j++)
+                for (int j = 0; j < elements.GetLength(1); j++)
                 {
-                    this.elemenents[i, j] += number;
+                    this.elements[i, j] += number;
                 }
             }
         }
@@ -96,17 +96,17 @@
         /// </summary>
         public void SubtractMatrix(Matrix obj)
         {
-            if (elemenents.GetLength(0) != obj.elemenents.GetLength(0) || elemenents.GetLength(1) != obj.elemenents.GetLength(1))
+            if (elements.GetLength(0) != obj.elements.GetLength(0) || elements.GetLength(1) != obj.elements.GetLength(1))
             {
                 throw new InvalidOperationException("Cannot substract two matrixes with different sizes.");
             }
             else
             {
-                for (int i = 0; i < elemenents.GetLength(0); i++)
+                for (int i = 0; i < elements.GetLength(0); i++)
                 {
-                    for (int j = 0; j < elemenents.GetLength(1); j++)
+                    for (int j = 0; j < elements.GetLength(1); j++)
                     {
-                        this.elemenents[i, j] -= obj.elemenents[i, j];
+                        this.elements[i, j] -= obj.elements[i, j];
                     }
                 }
             }
@@ -117,11 +117,11 @@
         /// <param name="number">Number that will be subtracted.</param>
         public void SubtractNumber(double number)
         {
-            for (int i = 0; i < elemenents.GetLength(0); i++)
+            for (int i = 0; i < elements.GetLength(0); i++)
             {
-                for (int j = 0; j < elemenents.GetLength(1); j++)
+                for (int j = 0; j < elements.GetLength(1); j++)
                 {
-                    this.elemenents[i, j] -= number;
+                    this.elements[i, j] -= number;
                 }
             }
         }
@@ -133,27 +133,63 @@
         /// </summary>
         public void Transition()
         {
-            double[,] clone = new double[elemenents.GetLength(0), elemenents.GetLength(1)];
+            double[,] clone = new double[elements.GetLength(0), elements.GetLength(1)];
 
-            for (int i = 0; i < elemenents.GetLength(0); i++)
+            for (int i = 0; i < elements.GetLength(0); i++)
             {
-                for (int j = 0; j < elemenents.GetLength(1); j++)
+                for (int j = 0; j < elements.GetLength(1); j++)
                 {
-                    clone[i, j] = elemenents[i, j];
+                    clone[i, j] = elements[i, j];
                 }
             }
 
-            elemenents = new double[clone.GetLength(1), clone.GetLength(0)];
+            elements = new double[clone.GetLength(1), clone.GetLength(0)];
 
-            for (int i = 0; i < elemenents.GetLength(0); i++)
+            for (int i = 0; i < elements.GetLength(0); i++)
             {
-                for (int j = 0; j < elemenents.GetLength(1); j++)
+                for (int j = 0; j < elements.GetLength(1); j++)
                 {
-                    elemenents[i, j] = clone[j, i];
+                    elements[i, j] = clone[j, i];
                 }
             }
 
         }
         #endregion
+
+        #region ConsoleCommands
+        /// <summary>
+        /// Print matrix in console.
+        /// </summary>
+        public void ConsoleOutput()
+        {
+            for (int i = 0; i < elements.GetLength(0); i++, Console.WriteLine("\n"))
+            {
+                for (int j = 0; j < elements.GetLength(1); j++, Console.Write("\t"))
+                {
+                    Console.Write(elements[i, j]);
+                }
+            }
+        }
+        /// <summary>
+        /// Input matrix from console.
+        /// </summary>
+        public void ConsoleInput()
+        {
+            Console.WriteLine("Enter number of rows");
+            int numberOfRows = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter number of columns:");
+            int numberOfCols = Convert.ToInt32(Console.ReadLine());
+            for (int i = 0; i < numberOfRows; i++)
+            {
+                for (int j = 0; j < numberOfCols; j++)
+                {
+                    Console.WriteLine($"Enter element at position [{i},{j}]: ");
+                    elements[i, j] = Convert.ToInt32(Console.ReadLine());
+                }
+            }    
+        }
+        #endregion
+
+
     }
 }
