@@ -217,5 +217,24 @@
             }
         }
         #endregion
+
+        #region Division by a scalar
+        /// <summary>
+        /// Divides all elements by specific number.
+        /// </summary>
+        /// <param name="scalar">Number that the matrix is divided by.</param>
+        public void DivisionByScalar(double scalar)
+        {
+            for (int i = 0; i < elements.GetLength(0); i++)
+            {
+                for (int j = 0; j < elements.GetLength(1); j++)
+                {
+                    this.elements[i, j] /= scalar;
+                }
+            }
+        }
+
+
+        #endregion
     }
 }
