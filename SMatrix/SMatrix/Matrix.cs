@@ -74,7 +74,7 @@
         }
 
         /// <summary>
-        /// Add number to matrix.
+        /// Add number to all elements in matrix.
         /// </summary>
         /// <param name="number">Number that will be added.</param>
         public void AddNumber(double number)
@@ -86,6 +86,17 @@
                     this.elements[i, j] += number;
                 }
             }
+        }
+
+        /// <summary>
+        /// Add number to the specific element in matrix.
+        /// </summary>
+        /// <param name="number">Number that will be added.</param>
+        /// <param name="i">Row position of the element.</param>
+        /// <param name="j">Column position of the element.</param>
+        public void AddNumberSpecific(double number, int i, int j)
+        {
+            this.elements[i, j] += number;
         }
 
         #endregion
