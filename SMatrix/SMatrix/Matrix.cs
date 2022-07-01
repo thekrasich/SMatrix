@@ -74,7 +74,7 @@
         }
 
         /// <summary>
-        /// Add number to matrix.
+        /// Add number to all elements in matrix.
         /// </summary>
         /// <param name="number">Number that will be added.</param>
         public void AddNumber(double number)
@@ -86,6 +86,17 @@
                     this.elements[i, j] += number;
                 }
             }
+        }
+
+        /// <summary>
+        /// Add number to the specific element in matrix.
+        /// </summary>
+        /// <param name="number">Number that will be added.</param>
+        /// <param name="i">Row position of the element.</param>
+        /// <param name="j">Column position of the element.</param>
+        public void AddNumberSpecific(double number, int i, int j)
+        {
+            this.elements[i, j] += number;
         }
 
         #endregion
@@ -409,6 +420,65 @@
 
             //output
             //Console.WriteLine(rank);
+        }
+
+        #endregion
+
+        #region Division by a scalar
+        /// <summary>
+        /// Divides all elements by specific number.
+        /// </summary>
+        /// <param name="scalar">Number that the matrix is divided by.</param>
+        public void DivisionByScalar(double scalar)
+        {
+            for (int i = 0; i < elements.GetLength(0); i++)
+            {
+                for (int j = 0; j < elements.GetLength(1); j++)
+                {
+                    this.elements[i, j] /= scalar;
+                }
+            }
+        }
+
+
+        #endregion
+
+        #region Find Min/Max values
+
+        /// <summary>
+        /// Finds and returns the min element of matrix.
+        /// </summary>
+        /// <param name="min">The min value.</param>
+        public double FindMin()
+        {
+            double min = elements[0, 0];
+            for (int i = 0; i < elements.GetLength(0); i++)
+            {
+                for (int j = 0; j < elements.GetLength(1); j++)
+                {
+                    if (elements[i, j] <= min)
+                        min = elements[i, j];
+                }
+            }
+            return min;
+        }
+
+        /// <summary>
+        /// Finds and returns the max element of matrix.
+        /// </summary>
+        /// <param name="max">The max value.</param>
+        public double FindMax()
+        {
+            double max = elements[0, 0];
+            for (int i = 0; i < elements.GetLength(0); i++)
+            {
+                for (int j = 0; j < elements.GetLength(1); j++)
+                {
+                    if (elements[i, j] >= max)
+                        max = elements[i, j];
+                }
+            }
+            return max;
         }
 
         #endregion
