@@ -205,6 +205,212 @@
                 }
             }
         }
+
+        public void MatrixMultiplication(Matrix obj)
+        {
+            double[,] mult = new double[elements.GetLength(0), obj.elements.GetLength(1)];
+
+            if (elements.GetLength(0) != obj.elements.GetLength(1))
+            {
+                throw new InvalidOperationException("Cannot multiply two matrixes.");
+            }
+            else
+            {
+                for (int i = 0; i < elements.GetLength(0); i++)
+                {
+                    for (int j = 0; j < obj.elements.GetLength(1); j++)
+                    {
+                        mult[i, j] = 0;
+                        for (int k = 0; k < elements.GetLength(0); k++)
+                        {
+                            mult[i, j] += this.elements[i, k] * obj.elements[k, j];
+                        }
+                    }
+                }
+
+                //output
+                /*for (int i = 0; i < mult.GetLength(0); i++, Console.WriteLine("\n"))
+                {
+                    for (int j = 0; j < mult.GetLength(1); j++, Console.Write("\t"))
+                    {
+                        Console.Write(elements[i, j]);
+                    }
+                }*/
+            }
+        }
+        #endregion
+
+        #region Inversion
+
+        void Upper(int size, int k, double[,] ident)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                ident[k, j] /= elements[k, k];
+            }
+
+            for (int i = k + 1; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    ident[i, j] -= ident[k, j] * elements[i, k];
+                }
+            }
+        }
+
+        void Lower(int size, int k, double[,] ident)
+        {
+            for (int i = size - k - 2; i >= 0; i--)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    ident[i, j] -= ident[size - k - 1, j] * elements[i, size - k - 1];
+                }
+            }
+        }
+
+        public void InversionMatrix()
+        {
+            double[,] ident = new double[elements.GetLength(0), elements.GetLength(1)];
+
+            if (elements.GetLength(0) != elements.GetLength(1))
+            {
+                throw new InvalidOperationException("Cannot find inverse matrix.");
+            }
+            else
+            {
+                for (int i = 0; i < ident.GetLength(0); i++)
+                {
+                    for (int j = 0; j < ident.GetLength(1); j++)
+                    {
+                        if (i != j)
+                        {
+                            ident[i, j] = 0;
+                        }
+                        else
+                        {
+                            ident[i, j] = 1;
+                        }
+                    }
+                }
+
+                for (int k = 0; k < elements.GetLength(0); k++)
+                {
+                    Upper(elements.GetLength(0), k, ident);
+                }
+
+                for (int k = 0; k < elements.GetLength(0); k++)
+                {
+                    Lower(elements.GetLength(0), k, ident);
+                }
+            }
+
+        }
+
+        #endregion
+
+        #region SumOfDiagonal
+
+        public void MainDiagonal()
+        {
+            double main = 0;
+            for (int i = 0; i < elements.GetLength(0); i++)
+            {
+                for (int j = 0; j < elements.GetLength(1); j++)
+                {
+                    if (i == j)
+                    {
+                        main += elements[i, j];
+                    }
+                }
+            }
+            //output
+            //Console.WriteLine(main);
+        }
+
+        public void AdditionalDiagonal()
+        {
+            double add = 0;
+            for (int i = 0; i < elements.GetLength(0); i++)
+            {
+                for (int j = 0; j < elements.GetLength(1); j++)
+                {
+                    if (i == elements.GetLength(1) - j - 1)
+                    {
+                        add += elements[i, j];
+                    }
+                }
+            }
+            //output
+            //Console.WriteLine(add);
+        }
+
+        #endregion
+
+        #region Rank
+
+        public void SwapRows(int row1, int row2, int col)
+        {
+            for (int i = 0; i < col; i++)
+            {
+                double temp = elements[row1, i];
+                elements[row1, i] = elements[row2, i];
+                elements[row2, i] = temp;
+            }
+        }
+
+        public void RankOfMatrix()
+        {
+            int rank = elements.GetLength(1);
+
+            for (int row = 0; row < rank; row++)
+            {
+                if (elements[row, row] != 0)
+                {
+                    for (int col = 0; col < elements.GetLength(0); col++)
+                    {
+                        if (col != row)
+                        {
+                            double mult = (double)elements[col, row] / elements[row, row];
+                            for (int i = 0; i < rank; i++)
+                            {
+                                elements[col, i] -= (int)mult * elements[row, i];
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    bool reduce = true;
+
+                    for (int i = row + 1; i < elements.GetLength(0); i++)
+                    {
+                        if (elements[i, row] != 0)
+                        {
+                            SwapRows(row, i, rank);
+                            reduce = false;
+                            break;
+                        }
+                    }
+
+                    if (reduce)
+                    {
+                        rank--;
+
+                        for (int i = 0; i < elements.GetLength(0); i++)
+                        {
+                            elements[i, row] = elements[i, rank];
+                        }
+                    }
+
+                    row--;
+                }
+            }
+
+            //output
+            //Console.WriteLine(rank);
+        }
+
         #endregion
     }
 }
