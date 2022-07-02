@@ -238,15 +238,6 @@
                         }
                     }
                 }
-
-                //output
-                /*for (int i = 0; i < mult.GetLength(0); i++, Console.WriteLine("\n"))
-                {
-                    for (int j = 0; j < mult.GetLength(1); j++, Console.Write("\t"))
-                    {
-                        Console.Write(elements[i, j]);
-                    }
-                }*/
             }
         }
         #endregion
@@ -482,5 +473,167 @@
         }
 
         #endregion
+
+        #region Operators
+
+        public static Matrix operator +(Matrix firstMatrix, Matrix secondMatrix)
+        {
+            if (firstMatrix.elements.GetLength(0) != firstMatrix.elements.GetLength(0) 
+                || firstMatrix.elements.GetLength(1) != firstMatrix.elements.GetLength(1))
+            {
+                throw new InvalidOperationException("Cannot add two matrixes with different sizes.");
+            }
+            Matrix result = new Matrix();
+            result.elements = new double[firstMatrix.elements.GetLength(0), firstMatrix.elements.GetLength(1)];
+            for (int i = 0; i < result.elements.GetLength(0); i++)
+            {
+                for (int j = 0; j < result.elements.GetLength(1); j++)
+                {
+                    result.elements[i, j]=firstMatrix.elements[i, j]+secondMatrix.elements[i,j];
+                }
+            }
+
+
+            return result;
+        }
+        public static Matrix operator *(Matrix firstMatrix, Matrix secondMatrix)
+        {
+            if (firstMatrix.elements.GetLength(0) != secondMatrix.elements.GetLength(1))
+            {
+                throw new InvalidOperationException("Cannot multiply two matrixes.Number of rows in first matrix " +
+                    "has to be equal to number of column in second.");
+            }
+            Matrix result = new Matrix();
+            result.elements = new double[firstMatrix.elements.GetLength(0), secondMatrix.elements.GetLength (1)];
+
+
+            for (int i = 0; i < result.elements.GetLength(0); i++)
+            {
+                for (int j = 0; j < result.elements.GetLength(1); j++)
+                {
+                    for (int k = 0; k < result.elements.GetLength(0); k++)
+                    {
+                        result.elements[i, j] += firstMatrix.elements[i, k] * secondMatrix.elements[k, j];
+                    }
+                }
+            }
+
+            return result;
+        }
+        public static Matrix operator -(Matrix firstMatrix, Matrix secondMatrix)
+        {
+            
+            if (firstMatrix.elements.GetLength(0) != firstMatrix.elements.GetLength(0)
+                || firstMatrix.elements.GetLength(1) != firstMatrix.elements.GetLength(1))
+            {
+                throw new InvalidOperationException("Cannot substract two matrixes with different sizes.");
+            }
+            Matrix result = new Matrix();
+            for (int i = 0; i < result.elements.GetLength(0); i++)
+            {
+                for (int j = 0; j < result.elements.GetLength(1); j++)
+                {
+                    result.elements[i, j] = firstMatrix.elements[i, j] - secondMatrix.elements[i, j];
+                }
+            }
+
+            return result;
+        }
+
+        public static Matrix operator +(Matrix firstMatrix, double number)
+        {
+            Matrix result = new Matrix();
+            result.elements = new double[firstMatrix.elements.GetLength(0), firstMatrix.elements.GetLength(1)];
+            for (int i = 0; i < result.elements.GetLength(0); i++)
+            {
+                for (int j = 0; j < result.elements.GetLength(1); j++)
+                {
+                    result.elements[i, j] = firstMatrix.elements[i, j] + number;
+                }
+            }
+            return result;
+        }
+        public static Matrix operator -(Matrix firstMatrix, double number)
+        {
+            Matrix result = new Matrix();
+            result.elements = new double[firstMatrix.elements.GetLength(0), firstMatrix.elements.GetLength(1)];
+            for (int i = 0; i < result.elements.GetLength(0); i++)
+            {
+                for (int j = 0; j < result.elements.GetLength(1); j++)
+                {
+                    result.elements[i, j] = firstMatrix.elements[i, j] - number;
+                }
+            }
+            return result;
+        }
+        public static Matrix operator *(Matrix firstMatrix, double number)
+        {
+            Matrix result = new Matrix();
+            result.elements = new double[firstMatrix.elements.GetLength(0), firstMatrix.elements.GetLength(1)];
+            for (int i = 0; i < result.elements.GetLength(0); i++)
+            {
+                for (int j = 0; j < result.elements.GetLength(1); j++)
+                {
+                    result.elements[i, j] = firstMatrix.elements[i, j] * number;
+                }
+            }
+            return result;
+        }
+
+        public static bool operator ==(Matrix firstMatrix, Matrix secondMatrix)
+        {
+            if (firstMatrix.elements.GetLength(0)!= secondMatrix.elements.GetLength(0) ||
+                firstMatrix.elements.GetLength(1) != secondMatrix.elements.GetLength(1))
+            {
+                return false;
+            }
+            for (int i = 0; i < firstMatrix.elements.GetLength(0); i++)
+            {
+                for (int j = 0; j < firstMatrix.elements.GetLength(1); j++)
+                {
+                    if (firstMatrix.elements[i, j] != secondMatrix.elements[i, j])
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+        public static bool operator !=(Matrix firstMatrix, Matrix secondMatrix)
+        {
+            if (firstMatrix.elements.GetLength(0) != secondMatrix.elements.GetLength(0) ||
+               firstMatrix.elements.GetLength(1) != secondMatrix.elements.GetLength(1))
+            {
+                return true;
+            }
+            for (int i = 0; i < firstMatrix.elements.GetLength(0); i++)
+            {
+                for (int j = 0; j < firstMatrix.elements.GetLength(1); j++)
+                {
+                    if (firstMatrix.elements[i, j] != secondMatrix.elements[i, j])
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+        #endregion
+
+        #region Overriden Functions
+
+        public override bool Equals(object? obj)
+        {
+            if (!(obj is Matrix))
+            {
+                return false;
+            }
+            return this == (Matrix)obj;
+        }
+
+        #endregion
+
     }
 }
