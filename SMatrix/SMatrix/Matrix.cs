@@ -4,6 +4,9 @@
     {
         public double[,] elements = new double[0,0];
 
+        public int Rows => elements.GetLength(0);
+        public int Columns => elements.GetLength(1);
+
         #region Fillers
 
         /// <summary>
