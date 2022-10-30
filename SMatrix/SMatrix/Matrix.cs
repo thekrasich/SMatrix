@@ -1,4 +1,6 @@
-﻿namespace SMatrix
+﻿using System.Globalization;
+
+namespace SMatrix
 {
     public class Matrix
     {
@@ -202,6 +204,83 @@
                 }
             }    
         }
+
+        public void WriteToConsole()
+        {
+            Write(Console.Out);
+        }
+
+        public void WriteToFile(string filename)
+        {
+            using var writer = new StreamWriter(filename);
+            Write(writer);
+        }
+
+        private void Write(TextWriter writer)
+        {
+            writer.WriteLine($"{Rows} {Columns}");
+            writer.WriteLine(string.Join('\n', Enumerable.Range(0, Rows).Select(
+                                         i => string.Join(' ', Enumerable.Range(0, Columns).Select(
+                                                              j => DoubleToString(elements[i, j]))))));
+        }
+
+        public void ReadFromConsole()
+        {
+            Console.Write("Enter the number of rows and columns: ");
+            Read(Console.In);
+        }
+
+        public void ReadFromFile(string filename)
+        {
+            using var reader = new StreamReader(filename);
+            Read(reader);
+        }
+
+        private void Read(TextReader reader)
+        {
+            int[] size = ReadVector(reader, Convert.ToInt32, 0, 2);
+            elements = new double[size[0], size[1]];
+            
+            for (var i = 0; i < Rows; ++i)
+            {
+
+                double[] xs = ReadVector(reader, ParseDouble, i+1, Columns);
+                
+                for (var j = 0; j < xs.Length; ++j)
+                    elements[i, j] = xs[j];
+            }
+        }
+
+        private static T[] ReadVector<T>(TextReader reader, 
+                                         Func<string, T> parseValue,
+                                         int lineIndex,
+                                         int expectedLength)
+        {
+            // StringSplitOptions.RemoveEmptyEntries = 1
+            // StringSplitOptions.TrimEntries = 2
+            const StringSplitOptions options = (StringSplitOptions)(1 + 2);
+            T[] xs = reader.ReadLine()?
+                           .Split(new[]{' ', '\t'}, options)
+                           .Select(parseValue)
+                           .ToArray() 
+                  ?? throw new ArgumentException(
+                         $"Expected to read {lineIndex}th line, but reader is empty", nameof(reader));
+            if (xs.Length != expectedLength)
+                throw new FormatException(
+                    $"The {lineIndex}th line expected to contain {expectedLength} values, but got {xs.Length}");
+            return xs;
+        }
+
+        private static double ParseDouble(string s)
+        {
+            return double.Parse(s, NumberStyles.Number, CultureInfo.InvariantCulture);
+        }
+
+        private static string DoubleToString(double x)
+        {
+            return x.ToString(CultureInfo.InvariantCulture);
+        }
+
         #endregion
 
         #region Multiplication
